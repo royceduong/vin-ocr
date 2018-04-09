@@ -1,0 +1,15 @@
+<h2>Vin Number Recognition</h2>
+<h4>Upload a photo of your car registration below</h4>
+<form action="process/" method="post">
+    {% csrf_token %}
+    <p>Name: <input type="text" name="name"></p>
+    <p>VIN Number: <input type="text" name="vin"></p>
+    <p><input type="submit" value="Submit Image"></p>
+</form>
+
+
+{% for vehicle in vehicles %}
+<p>Name: {{vehicle.name}}</p>
+<p>Vehicle Identification Number: {{vehicle.vin}}</p>
+<hr>
+{% endfor %}

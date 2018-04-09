@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        {% load static %}
+        <link rel="stylesheet" type="text/css" href="{% static 'css/list.css' %}">
+        <title>VIN OCR</title>
+    </head>
+
+    <body>
+        <div class="container">
+            <h2>VIN OCR Project</h2>
+            <h4>Vehicle Identification Number Optical Character Recognition </h4>
+            <p>Prospective Client: Hyrecar rents cars to Uber/Lyft drivers. Car owners can list their cars and charge a daily rate.</p>
+            <p>Business problem: Car owners are manually entering a 14 character string... <br>
+            with ~30,000 cars on their platform, mistakes inevitably arise which consumes administrative costs, duplicates effort, and creates a poor customer experience.</p>
+            <p>Solution: Build an application that can scan a photo of car registration and identify the VIN number, returning it as a string</p>
+            <ul>
+                <h3>Methods</h3>
+                <li>Python/Django/SQLite stack</li>
+                <li><a href="https://opensource.google.com/projects/tesseract">Tesseract Optical Character Recognition(OCR)</a></li>
+                <li><a href="https://opencv.org/about.html">OpenCV Computer Vision</a>  </li>
+            </ul>
+            <!-- List of uploaded documents -->
+            
+            {% if documents %}
+                <ul>
+                    <h3>Image Uploads</h3>
+                    {% for document in documents %}
+                        <li><a href="{{ document.docfile.url }}">media/{{ document.docfile.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No documents.</p>
+            {% endif %}
+
+            <!-- Upload form. -->
+            <form action="{% url "list" %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <p>{{ form.non_field_errors }}</p>
+                <p>{{ form.docfile.label_tag }} {{ form.docfile.help_text }}</p>
+                <p>
+                    {{ form.docfile.errors }}
+                    {{ form.docfile }}
+                </p>
+                <p><input type="submit" value="Upload"/></p>
+            </form>
+
+
+            <form action="/first_app/list/scan/" method="post">
+                {% csrf_token %}
+                <p>Image url: </p>
+                <p>Copy the link of your desired photo and paste into form</p>
+                <input type="text" name="url">
+                <input type='submit' value="Good Luck, Bro">
+            </form>
+
+            <br>
+            <br>
+        </div>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    </body>
+
+</html>
